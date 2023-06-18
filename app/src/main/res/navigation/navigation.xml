@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/loginFragment">
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.split.LoginFragment"
+        android:label="Login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_scanNFC"
+            app:destination="@id/scanNFC"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.split.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_registerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/writeNFC"
+        android:name="com.example.split.writeNFC"
+        android:label="fragment_write_n_f_c"
+        tools:layout="@layout/fragment_write_n_f_c" />
+    <fragment
+        android:id="@+id/scanNFC"
+        android:name="com.example.split.scanNFC"
+        android:label="fragment_scan_n_f_c"
+        tools:layout="@layout/fragment_scan_n_f_c" >
+        <action
+            android:id="@+id/action_scanNFC2_to_writeNFC2"
+            app:destination="@id/writeNFC" />
+    </fragment>
+</navigation>
