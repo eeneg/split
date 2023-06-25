@@ -13,7 +13,8 @@ class DBHelper(
     context: Context?,
 ) : SQLiteOpenHelper(context, "users", null, 1) {
 
-
+    var user_name = ""
+    var username_text = ""
 
     override fun onCreate(p0: SQLiteDatabase?) {
         p0?.execSQL("create table 'users' ('id' INTEGER primary key AUTOINCREMENT, 'name' varchar(16), 'username' varchar(16), 'password' varchar(50))")
@@ -53,6 +54,7 @@ class DBHelper(
     fun checkUserExist(username: String, password: String) : Boolean {
         val db = this.readableDatabase
         val query = db.rawQuery("select * from users where username = ? and password = ?", arrayOf(username, password))
+        this.setCurrentUser(username, password)
         return query.count > 0
     }
 
@@ -62,6 +64,23 @@ class DBHelper(
         query.close()
         db.close()
         return query
+    }
+
+    fun setCurrentUser(username: String, password: String){
+        val db = this.readableDatabase
+        val query = db.rawQuery("select * from users where username = ? and password = ?", arrayOf(username, password))
+        query.moveToFirst()
+        user_name = query.getString(1)
+        username_text = query.getString(2)
+
+    }
+
+    fun getName(): String {
+        return user_name
+    }
+
+    fun getUsername(): String{
+        return username_text
     }
 
 

@@ -2,14 +2,12 @@ package com.example.split
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.split.databinding.FragmentWriteNFCBinding
 
-class writeNFC : Fragment() {
+class WriteFragment : Fragment() {
 
     private var _binding: FragmentWriteNFCBinding? = null
 
@@ -20,13 +18,18 @@ class writeNFC : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        setHasOptionsMenu(true)
+        _binding = FragmentWriteNFCBinding.inflate(inflater, container, false)
+
+        val view = binding.root
+
         return view
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu, menu)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
+
+
 
 }

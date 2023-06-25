@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.split.Database.DBHelper
 import com.example.split.databinding.FragmentLoginBinding
@@ -76,7 +77,8 @@ class LoginFragment : Fragment() {
 
                     editor.apply()
 
-                    Navigation.findNavController(view).navigate(R.id.scanNFC)
+
+                    view.findNavController().navigate(R.id.scanNFC)
 
                 }else{
                     Toast.makeText(activity, "Username or Password does not exist", Toast.LENGTH_SHORT).show()

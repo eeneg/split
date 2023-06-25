@@ -24,5 +24,11 @@
     <string name="writeNFC">Write NFC</string>
     <string name="page_title">Split</string>
     <string name="logout">Logout</string>
+    <string name="profile">Profile</string>
+
+    <string name="text_username">USERNAME</string>
+    <string name="user_name">NAME</string>
+
+    <string name="image_description">Profile Image</string>
 
 </resources>
