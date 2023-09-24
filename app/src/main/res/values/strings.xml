@@ -30,5 +30,13 @@
     <string name="user_name">NAME</string>
 
     <string name="image_description">Profile Image</string>
+    <string name="info">Information</string>
+    <string name="save">Save</string>
+    <string name="account">Account</string>
+    <string name="active_scan">Actively Scan For NFC Tags?</string>
+    <string name="write_nfc">WRITE NFC</string>
+    <string name="bib">Bib Number</string>
+    <string name="confirm">Confirm</string>
+    <string name="plance_nfc">Approach an NFC tag</string>
 
 </resources>

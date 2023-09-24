@@ -1,5 +1,6 @@
 package com.example.split
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
@@ -13,6 +14,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -35,9 +37,7 @@ class LoginFragment : Fragment() {
 
     private lateinit var sharedPref : SharedPreferences
 
-    private var sharedPrefUsername = ""
-    private var sharedPrefPassword = ""
-
+    @SuppressLint("Range")
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -57,9 +57,8 @@ class LoginFragment : Fragment() {
             database = DBHelper(activity)
 
             sharedPref = activity?.getSharedPreferences("key", Context.MODE_PRIVATE)!!
-            sharedPrefUsername = sharedPref.getString("username", "").toString()
-            sharedPrefPassword = sharedPref.getString("password", "").toString()
 
+            val viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
 
             loginbtn.setOnClickListener {
 
@@ -72,11 +71,21 @@ class LoginFragment : Fragment() {
 
                     val editor: SharedPreferences.Editor = sharedPref.edit()
 
+                    val user = database.getUserDetails(username, password)
+
+                    if(user!!.moveToFirst())
+                    {
+                        editor.putString("id", user.getString(user.getColumnIndex("id")))
+                        editor.putString("name", user.getString(user.getColumnIndex("name")))
+                    }
+
                     editor.putString("username", username)
                     editor.putString("password", password)
 
                     editor.apply()
 
+                    viewModel.name = user.getString(user.getColumnIndex("name"))
+                    viewModel.username = user.getString(user.getColumnIndex("username"))
 
                     view.findNavController().navigate(R.id.scanNFC)
 
@@ -99,7 +108,6 @@ class LoginFragment : Fragment() {
         val navController = findNavController()
 
         sharedPref = activity?.getSharedPreferences("key", Context.MODE_PRIVATE)!!
-
 
         if(sharedPref.getString("username", null) != null){
             navController.popBackStack()

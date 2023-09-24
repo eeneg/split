@@ -6,15 +6,13 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 
 @RequiresApi(Build.VERSION_CODES.P)
 class DBHelper(
     context: Context?,
 ) : SQLiteOpenHelper(context, "users", null, 1) {
-
-    var user_name = ""
-    var username_text = ""
 
     override fun onCreate(p0: SQLiteDatabase?) {
         p0?.execSQL("create table 'users' ('id' INTEGER primary key AUTOINCREMENT, 'name' varchar(16), 'username' varchar(16), 'password' varchar(50))")
@@ -39,49 +37,65 @@ class DBHelper(
     }
 
     fun checkUsername(username: String) : Boolean {
-        val db = this.readableDatabase
-        val res = db.rawQuery("select * from users where username = ?", arrayOf(username))
+        val p0 = this.readableDatabase
+        val res = p0.rawQuery("select * from users where username = ?", arrayOf(username))
         if(res.count<=0){
             res.close()
             return false
         }
         res.close()
-        db.close()
+        p0.close()
         return true
     }
 
 
     fun checkUserExist(username: String, password: String) : Boolean {
-        val db = this.readableDatabase
-        val query = db.rawQuery("select * from users where username = ? and password = ?", arrayOf(username, password))
-        this.setCurrentUser(username, password)
+        val p0 = this.readableDatabase
+        val query = p0.rawQuery("select * from users where username = ? and password = ?", arrayOf(username, password))
+        query.close()
         return query.count > 0
     }
 
     fun getAllUsers() : Cursor?{
-        val db = this.readableDatabase
-        val query = db.rawQuery("select * from users", null)
+        val p0 = this.readableDatabase
+        val query = p0.rawQuery("select * from users", null)
         query.close()
-        db.close()
+        p0.close()
         return query
     }
 
-    fun setCurrentUser(username: String, password: String){
-        val db = this.readableDatabase
-        val query = db.rawQuery("select * from users where username = ? and password = ?", arrayOf(username, password))
-        query.moveToFirst()
-        user_name = query.getString(1)
-        username_text = query.getString(2)
-
+    fun getUserDetails(username: String, password: String) : Cursor? {
+        val p0 = this.readableDatabase
+        val query = p0.rawQuery("select * from users where username = ? and password = ?", arrayOf(username, password))
+        return query
     }
 
-    fun getName(): String {
-        return user_name
+    fun changeName(name: String, id: String) : Boolean {
+        val p0 = this.writableDatabase
+        val contentValues = ContentValues()
+
+        contentValues.put("name", name)
+
+        val result = p0.update("users", contentValues, "id=?", arrayOf<String>(id))
+
+        Log.i("ASDa", result.toString())
+        return  result == 1
     }
 
-    fun getUsername(): String{
-        return username_text
+    fun changeLoginCredentials(id: String, username: String, password: String) : Boolean {
+        val p0 = this.writableDatabase
+        val contentValues = ContentValues()
+
+        contentValues.put("username", username)
+        contentValues.put("password", password)
+
+        val result = p0.update("users", contentValues, "id=?", arrayOf<String>(id))
+
+        Log.i("asdasd", result.toString())
+
+        return result == 1
     }
+
 
 
 }
