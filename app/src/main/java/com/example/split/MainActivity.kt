@@ -103,7 +103,6 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Device does not support NFC", Toast.LENGTH_LONG).show()
         }
 
-        processNFC(intent)
         pendingIntent = PendingIntent.getActivity(
             this,
             0,
@@ -116,19 +115,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun processNFC(intent: Intent){
-        if(activescan){
-            if(writeMode == false){
+        if(writeMode == false){
+            if(activescan){
                 readFromIntent(intent)
+                Toast.makeText(this, "Scanned Successfully!", Toast.LENGTH_SHORT).show()
             }else{
+                Toast.makeText(this, "Please turn on Active Scan", Toast.LENGTH_SHORT).show()
+            }
+        }else{
+            if(writeText != ""){
                 try {
                     tag = intent.getParcelableExtra<Parcelable>(NfcAdapter.EXTRA_TAG) as Tag?
                     writeNFC(writeText, tag)
+                    Toast.makeText(this, "Confirmed!", Toast.LENGTH_SHORT).show()
+
                 }catch (e: Exception){
                     Toast.makeText(this, "Error!", Toast.LENGTH_SHORT).show()
                 }
+            }else{
+                Toast.makeText(this, "Cant write NFC! Either Text in empty or press the Confirm button to continue", Toast.LENGTH_LONG).show()
             }
-        }else{
-            Toast.makeText(this, "Turn on Active scan first", Toast.LENGTH_SHORT).show()
         }
     }
     private fun readFromIntent(intent: Intent) {
@@ -174,7 +180,6 @@ class MainActivity : AppCompatActivity() {
         } catch (e: UnsupportedEncodingException) {
             Log.e("UnsupportedEncoding", e.toString())
         }
-        Toast.makeText(this, "Scanned Successfully!", Toast.LENGTH_SHORT).show()
     }
     @Throws(IOException::class, FormatException::class)
     fun writeNFC(text: String, tag: Tag?) {
@@ -208,7 +213,6 @@ class MainActivity : AppCompatActivity() {
     }
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        setIntent(intent)
         processNFC(intent)
         if (NfcAdapter.ACTION_TAG_DISCOVERED == intent.action) {
             tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG)
@@ -255,14 +259,14 @@ class MainActivity : AppCompatActivity() {
     fun setMode(mode: Boolean, message: String){
         writeMode = mode
         writeText = message
-        Log.i("setmode", writeMode.toString())
     }
 
     fun setActiveScan(mode: Boolean){
-//        Toast.makeText(this, mode.toString(), Toast.LENGTH_SHORT).show()
         activescan = mode
     }
 
-
+    fun rm(): String{
+        return writeMode.toString()
+    }
 
 }

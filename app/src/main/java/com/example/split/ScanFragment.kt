@@ -44,7 +44,6 @@ class ScanFragment : Fragment(){
         data = view.findViewById(R.id.list)
         dbRaceLog = DBRaceLog(activity)
 
-
         val main = MainActivity()
 
         switchScan.setOnCheckedChangeListener { _, isChecked ->
@@ -70,6 +69,8 @@ class ScanFragment : Fragment(){
     }
     override fun onDestroyView() {
         super.onDestroyView()
+        val mainActivity = MainActivity()
+        mainActivity.setActiveScan(false)
         _binding = null
     }
 

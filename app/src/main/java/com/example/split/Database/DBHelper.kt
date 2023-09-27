@@ -52,8 +52,13 @@ class DBHelper(
     fun checkUserExist(username: String, password: String) : Boolean {
         val p0 = this.readableDatabase
         val query = p0.rawQuery("select * from users where username = ? and password = ?", arrayOf(username, password))
-        query.close()
-        return query.count > 0
+        return if(query.count > 0){
+            query.close()
+            true
+        }else{
+            query.close()
+            false
+        }
     }
 
     fun getAllUsers() : Cursor?{

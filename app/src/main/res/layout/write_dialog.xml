@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:padding="20dp">
+
+    <ImageView
+        android:id="@+id/nfc_icon"
+        android:layout_width="175dp"
+        android:layout_height="137dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/baseline_nfc_24" />
+
+    <TextView
+        android:id="@+id/approach_nfc_text"
+        android:layout_width="198dp"
+        android:layout_height="26dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/plance_nfc"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="20dp" />
+
+</LinearLayout>

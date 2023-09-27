@@ -19,22 +19,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/writeNFCbtn"
-        android:layout_width="164dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/confirm"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bibInput" />
-
     <EditText
         android:id="@+id/bibInput"
         android:layout_width="240dp"
         android:layout_height="48dp"
-        android:layout_marginTop="244dp"
+        android:layout_marginTop="152dp"
         android:ems="10"
         android:hint="@string/bib"
         android:inputType="number"
@@ -43,28 +32,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/writeNFCtxt" />
 
-    <ImageView
-        android:id="@+id/nfc_icon"
-        android:layout_width="175dp"
-        android:layout_height="137dp"
-        android:layout_marginTop="24dp"
-        android:src="@drawable/baseline_nfc_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/writeNFCtxt" />
-
-    <TextView
-        android:id="@+id/approach_nfc_text"
-        android:layout_width="198dp"
-        android:layout_height="26dp"
-        android:layout_marginTop="24dp"
-        android:text="@string/plance_nfc"
-        android:textSize="20dp"
-        android:textColor="@android:color/holo_red_dark"
-        app:layout_constraintBottom_toTopOf="@+id/bibInput"
+    <Button
+        android:id="@+id/writeNFCbtn"
+        android:layout_width="164dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/confirm"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nfc_icon"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/bibInput" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

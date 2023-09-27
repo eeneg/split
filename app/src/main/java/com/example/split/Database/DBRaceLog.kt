@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper
 
 class DBRaceLog(context: Context?) : SQLiteOpenHelper(context, "racelog", null, 1) {
     override fun onCreate(p0: SQLiteDatabase?) {
-        p0?.execSQL("create table 'racelog' ('_id' INTEGER PRIMARY KEY AUTOINCREMENT , 'bib' varchar(16), 'time' varchar(16))")
+        p0?.execSQL("create table 'racelog' ('_id' INTEGER PRIMARY KEY AUTOINCREMENT , 'bib' varchar(16), 'time' time)")
     }
 
     override fun onUpgrade(p0: SQLiteDatabase?, p1: Int, p2: Int) {
