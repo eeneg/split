@@ -127,6 +127,11 @@ class MainActivity : AppCompatActivity() {
                 try {
                     tag = intent.getParcelableExtra<Parcelable>(NfcAdapter.EXTRA_TAG) as Tag?
                     writeNFC(writeText, tag)
+                    val asd = supportFragmentManager.findFragmentByTag("write dialog")
+                    if (asd != null) {
+                        val df = asd as ShowWriteDialog
+                        df.dismiss()
+                    }
                     Toast.makeText(this, "Confirmed!", Toast.LENGTH_SHORT).show()
 
                 }catch (e: Exception){
@@ -263,10 +268,6 @@ class MainActivity : AppCompatActivity() {
 
     fun setActiveScan(mode: Boolean){
         activescan = mode
-    }
-
-    fun rm(): String{
-        return writeMode.toString()
     }
 
 }
