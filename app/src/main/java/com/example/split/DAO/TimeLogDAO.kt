@@ -1,10 +1,11 @@
 package com.example.split.DAO
 
+import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
-
+@Dao
 interface TimeLogDAO {
     @Query("select * from racelog order by time DESC")
     fun getTimeLog(): Flow<List<TimeLog>>

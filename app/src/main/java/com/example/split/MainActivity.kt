@@ -43,6 +43,10 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var dbRaceLog: DBRaceLog
 
+//    private val timeLogViewModel: TimeLogViewModel by viewModels {
+//        TimeLogViewModelFactory((application as TimeLogApplication).repo)
+//    }
+
     companion object {
         var writeMode = false
         var writeText = ""

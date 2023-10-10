@@ -33,7 +33,7 @@ class ScanFragment : Fragment(){
     private lateinit var sync: Button
 
     private val timeLogViewModel: TimeLogViewModel by viewModels {
-        TimeLogViewModelFactory((activity as TimeLogApplication).repo)
+        TimeLogViewModelFactory((activity?.application as TimeLogApplication).repo)
     }
 
     override fun onCreateView(
@@ -66,12 +66,10 @@ class ScanFragment : Fragment(){
         data.adapter = timeLogAdapter
         data.layoutManager = LinearLayoutManager(activity)
 
-
-        activity?.let {
-            timeLogViewModel.allLogs.observe(it) { logs ->
-                logs.let { timeLogAdapter.submitList(it) }
-            }
+        timeLogViewModel.allLogs.observe(requireActivity()) { logs ->
+            logs.let { timeLogAdapter.submitList(it) }
         }
+
 
 
         return view

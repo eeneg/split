@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.split.R
-import java.sql.Time
 
 class TimeLogAdapter : ListAdapter<TimeLog, TimeLogAdapter.TimeLogViewHolder>(BibComparator()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimeLogViewHolder {
@@ -24,7 +23,7 @@ class TimeLogAdapter : ListAdapter<TimeLog, TimeLogAdapter.TimeLogViewHolder>(Bi
         private val bibItemView: TextView = itemView.findViewById(R.id.bib)
         private val timeItemView: TextView = itemView.findViewById(R.id.time)
 
-        fun bind(bib: String, time: Time){
+        fun bind(bib: String, time: String){
             bibItemView.text = bib
             timeItemView.text = time.toString()
         }
