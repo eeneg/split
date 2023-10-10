@@ -5,12 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ListView
-import android.widget.SimpleCursorAdapter
 import android.widget.TextClock
 import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.split.DAO.TimeLogAdapter
+import com.example.split.DAO.TimeLogApplication
+import com.example.split.DAO.TimeLogViewModel
+import com.example.split.DAO.TimeLogViewModelFactory
 import com.example.split.Databasec.DBRaceLog
 import com.example.split.databinding.FragmentScanNFCBinding
 
@@ -22,12 +27,15 @@ class ScanFragment : Fragment(){
     private lateinit var time : TextClock
     private lateinit var textView2 : TextView
     private lateinit var switchScan : SwitchCompat
-    private lateinit var data: ListView
+    private lateinit var data: RecyclerView
     private lateinit var dbRaceLog: DBRaceLog
 
     private lateinit var sync: Button
 
-    private lateinit var simpleCursorAdapter: SimpleCursorAdapter
+    private val timeLogViewModel: TimeLogViewModel by viewModels {
+        TimeLogViewModelFactory((activity as TimeLogApplication).repo)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -54,16 +62,17 @@ class ScanFragment : Fragment(){
             }
         }
 
-        simpleCursorAdapter = SimpleCursorAdapter(
-            activity,
-            R.layout.race_log,
-            dbRaceLog.getAllLogs(),
-            arrayOf("bib", "time"),
-            intArrayOf(R.id.bib, R.id.time)
-        )
+        val timeLogAdapter = TimeLogAdapter()
+        data.adapter = timeLogAdapter
+        data.layoutManager = LinearLayoutManager(activity)
 
-        data.adapter = simpleCursorAdapter
-        simpleCursorAdapter.notifyDataSetChanged()
+
+        activity?.let {
+            timeLogViewModel.allLogs.observe(it) { logs ->
+                logs.let { timeLogAdapter.submitList(it) }
+            }
+        }
+
 
         return view
     }

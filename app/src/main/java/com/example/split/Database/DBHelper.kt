@@ -6,7 +6,6 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 
 @RequiresApi(Build.VERSION_CODES.P)
@@ -83,7 +82,6 @@ class DBHelper(
 
         val result = p0.update("users", contentValues, "id=?", arrayOf<String>(id))
 
-        Log.i("ASDa", result.toString())
         return  result == 1
     }
 
@@ -95,8 +93,6 @@ class DBHelper(
         contentValues.put("password", password)
 
         val result = p0.update("users", contentValues, "id=?", arrayOf<String>(id))
-
-        Log.i("asdasd", result.toString())
 
         return result == 1
     }
