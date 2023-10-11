@@ -12,12 +12,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.split.DAO.TimeLog
 import com.example.split.DAO.TimeLogAdapter
 import com.example.split.DAO.TimeLogApplication
 import com.example.split.DAO.TimeLogViewModel
 import com.example.split.DAO.TimeLogViewModelFactory
 import com.example.split.Databasec.DBRaceLog
 import com.example.split.databinding.FragmentScanNFCBinding
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class ScanFragment : Fragment(){
 
@@ -68,6 +71,11 @@ class ScanFragment : Fragment(){
 
         timeLogViewModel.allLogs.observe(requireActivity()) { logs ->
             logs.let { timeLogAdapter.submitList(it) }
+        }
+
+        sync.setOnClickListener {
+            val log = TimeLog(0, "0001", LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")).toString())
+            timeLogViewModel.insert(log)
         }
 
 

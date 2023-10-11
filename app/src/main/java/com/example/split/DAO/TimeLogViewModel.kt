@@ -11,17 +11,17 @@ class TimeLogViewModel(private val repo: TimeLogRepo): ViewModel() {
 
     val allLogs: LiveData<List<TimeLog>> = repo.allLogs.asLiveData()
 
-    fun insert(bib: String, time: String) = viewModelScope.launch{
-        repo.insert(bib, time)
+    fun insert(log: TimeLog) = viewModelScope.launch{
+        repo.insert(log)
     }
 
-    fun update(time: String, id: Int) = viewModelScope.launch {
-        repo.update(time, id)
-    }
-
-    fun delete(id: Int) = viewModelScope.launch {
-        repo.delete(id)
-    }
+//    fun update(time: String, id: Int) = viewModelScope.launch {
+//        repo.update(time, id)
+//    }
+//
+//    fun delete(id: Int) = viewModelScope.launch {
+//        repo.delete(id)
+//    }
 
 }
 

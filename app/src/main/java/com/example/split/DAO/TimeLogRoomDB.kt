@@ -11,7 +11,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @Database(entities = arrayOf(TimeLog::class), version = 1, exportSchema = false)
-public abstract  class TimeLogRoomDB : RoomDatabase(){
+abstract  class TimeLogRoomDB : RoomDatabase(){
 
     abstract fun timelogDao(): TimeLogDAO
 
@@ -26,7 +26,8 @@ public abstract  class TimeLogRoomDB : RoomDatabase(){
 
                     timeLogDAO.deleteAll()
 
-                    timeLogDAO.insert("0000", LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")))
+                    var log = TimeLog(0,"000", LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")).toString())
+                    timeLogDAO.insert(log)
                 }
             }
         }
@@ -43,7 +44,9 @@ public abstract  class TimeLogRoomDB : RoomDatabase(){
                     context.applicationContext,
                     TimeLogRoomDB::class.java,
                     "racelog"
-                ).build()
+                )
+                .addCallback(TimeLogDBCallback(scope))
+                .build()
                 INSTANCE = instance
                 instance
             }

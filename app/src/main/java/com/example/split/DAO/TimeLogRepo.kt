@@ -8,18 +8,18 @@ class TimeLogRepo(private val timeLogDAO: TimeLogDAO) {
     val allLogs: Flow<List<TimeLog>> = timeLogDAO.getTimeLog()
 
     @WorkerThread
-    suspend fun insert(bib: String, time: String) {
-        timeLogDAO.insert(bib, time)
+    suspend fun insert(log: TimeLog) {
+        timeLogDAO.insert(log)
     }
 
-    @WorkerThread
-    fun update(time: String, id: Int) {
-        timeLogDAO.updateTimeLog(time, id)
-    }
-
-    @WorkerThread
-    fun delete(id: Int) {
-        timeLogDAO.deleteTimeLog(id)
-    }
+//    @WorkerThread
+//    fun update(time: TimeLog, id: TimeLog) {
+//        timeLogDAO.updateTimeLog(time, id)
+//    }
+//
+//    @WorkerThread
+//    fun delete(id: TimeLog) {
+//        timeLogDAO.deleteTimeLog(id)
+//    }
 
 }

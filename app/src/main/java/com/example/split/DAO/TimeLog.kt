@@ -6,12 +6,10 @@ import androidx.room.PrimaryKey
 
 
 @Entity(tableName = "racelog")
-class TimeLog {
+class TimeLog (
 
-    @PrimaryKey(autoGenerate = true) var id: Int = 0
-    @ColumnInfo(name = "bib")
-    var bib: String? = null
-    @ColumnInfo(name = "time")
-    var time: String? = null
+    @PrimaryKey(autoGenerate = true) var id: Int = 0,
+    @ColumnInfo(name = "bib") var bib: String,
+    @ColumnInfo(name = "time")var time: String,
 
-}
+)
