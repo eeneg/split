@@ -8,9 +8,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "racelog", indices = [Index(value = ["bib", "time"], unique = true)])
 class TimeLog (
-
-    @PrimaryKey(autoGenerate = true) var id: Int = 0,
     @ColumnInfo(name = "bib") var bib: String,
     @ColumnInfo(name = "time")var time: String,
-
-)
+){
+    @PrimaryKey(autoGenerate = true) var id: Int = 0
+}

@@ -26,7 +26,7 @@ abstract  class TimeLogRoomDB : RoomDatabase(){
 
                     timeLogDAO.deleteAll()
 
-                    var log = TimeLog(0,"000", LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")).toString())
+                    var log = TimeLog("000", LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")).toString())
                     timeLogDAO.insert(log)
                 }
             }

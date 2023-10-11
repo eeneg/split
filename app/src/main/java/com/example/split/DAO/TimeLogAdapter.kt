@@ -4,10 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.split.R
+import com.example.split.ShowEditLogDialog
 
 class TimeLogAdapter : ListAdapter<TimeLog, TimeLogAdapter.TimeLogViewHolder>(BibComparator()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimeLogViewHolder {
@@ -16,7 +18,10 @@ class TimeLogAdapter : ListAdapter<TimeLog, TimeLogAdapter.TimeLogViewHolder>(Bi
 
     override fun onBindViewHolder(holder: TimeLogViewHolder, position: Int) {
         val current = getItem(position)
-        current.bib?.let { current.time?.let { it1 -> holder.bind(it, it1) } }
+        holder.bind(current.bib, current.time)
+        holder.itemView.setOnClickListener{
+            ShowEditLogDialog(current).show((holder.itemView.context as AppCompatActivity).supportFragmentManager, "write dialog")
+        }
     }
 
     class TimeLogViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
@@ -25,7 +30,7 @@ class TimeLogAdapter : ListAdapter<TimeLog, TimeLogAdapter.TimeLogViewHolder>(Bi
 
         fun bind(bib: String, time: String){
             bibItemView.text = bib
-            timeItemView.text = time.toString()
+            timeItemView.text = time
         }
 
         companion object{

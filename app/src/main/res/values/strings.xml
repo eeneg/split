@@ -39,6 +39,7 @@
     <string name="confirm">Confirm</string>
     <string name="plance_nfc">Approach an NFC tag</string>
     <string name="nfclogo">NFCLOGO</string>
+    <string name="edit_time">Edit Time</string>
 
     <string-array name="action">
         <item>Edit</item>

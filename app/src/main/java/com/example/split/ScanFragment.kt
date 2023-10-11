@@ -70,11 +70,14 @@ class ScanFragment : Fragment(){
         data.layoutManager = LinearLayoutManager(activity)
 
         timeLogViewModel.allLogs.observe(requireActivity()) { logs ->
-            logs.let { timeLogAdapter.submitList(it) }
+            logs.let {
+                timeLogAdapter.submitList(it)
+                data.smoothScrollToPosition(0)
+            }
         }
 
         sync.setOnClickListener {
-            val log = TimeLog(0, "0001", LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")).toString())
+            val log = TimeLog("0001", LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")).toString())
             timeLogViewModel.insert(log)
         }
 
