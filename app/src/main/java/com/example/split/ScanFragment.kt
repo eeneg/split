@@ -78,8 +78,6 @@ class ScanFragment : Fragment(){
             timeLogViewModel.insert(log)
         }
 
-
-
         return view
     }
     override fun onDestroyView() {

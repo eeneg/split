@@ -1,5 +1,6 @@
 package com.example.split.DAO
 
+import android.database.sqlite.SQLiteConstraintException
 import androidx.annotation.WorkerThread
 import kotlinx.coroutines.flow.Flow
 
@@ -9,7 +10,11 @@ class TimeLogRepo(private val timeLogDAO: TimeLogDAO) {
 
     @WorkerThread
     suspend fun insert(log: TimeLog) {
-        timeLogDAO.insert(log)
+        try {
+            timeLogDAO.insert(log)
+        }catch (_: SQLiteConstraintException){
+            
+        }
     }
 
 //    @WorkerThread
