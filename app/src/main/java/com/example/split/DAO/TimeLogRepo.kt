@@ -20,11 +20,12 @@ class TimeLogRepo(private val timeLogDAO: TimeLogDAO) {
         }
     }
 
-//    @WorkerThread
-//    fun update(time: TimeLog, id: TimeLog) {
-//        timeLogDAO.updateTimeLog(time, id)
-//    }
-//
+    @OptIn(DelicateCoroutinesApi::class)
+    @WorkerThread
+    fun update(time: String, bib: String,id: Int) {
+        GlobalScope.launch { timeLogDAO.updateTimeLog(time, bib, id) }
+    }
+
     @OptIn(DelicateCoroutinesApi::class)
     @WorkerThread
     fun delete(log: TimeLog) {

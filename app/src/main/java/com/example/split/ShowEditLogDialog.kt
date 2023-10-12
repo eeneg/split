@@ -7,6 +7,7 @@ import android.content.Context
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.NumberPicker
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.example.split.DAO.TimeLog
@@ -59,13 +60,20 @@ class ShowEditLogDialog(log: TimeLog, activity: Context): DialogFragment() {
             edit_secs.value = secs.toInt()
 
             builder.setView(subView)
+                .setTitle("Edit Log")
                 .setNeutralButton("Delete"
                 ) { _, _ ->
                     timeLogViewModel.delete(iLog)
+                    Toast.makeText(subView.context, "Deleted!", Toast.LENGTH_SHORT).show()
                 }
                 .setPositiveButton("Save"
                 ) { _, _ ->
-
+                    if(edit_hour.value.toString().padStart(2,'0') + ":" + edit_mins.value.toString().padStart(2,'0') + ":" + edit_secs.value.toString().padStart(2,'0') == iLog.time && edit_bib.text.toString() == iLog.bib){
+                        Toast.makeText(subView.context, "No changes made", Toast.LENGTH_SHORT).show()
+                    }else{
+                        timeLogViewModel.update(edit_hour.value.toString().padStart(2,'0') + ":" + edit_mins.value.toString().padStart(2,'0') + ":" + edit_secs.value.toString().padStart(2,'0'), edit_bib.text.toString(), iLog.id)
+                        Toast.makeText(subView.context, "Saved!", Toast.LENGTH_SHORT).show()
+                    }
                 }
                 .setNegativeButton("Cancel"
                 ) { _, _ ->

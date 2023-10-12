@@ -15,8 +15,8 @@ interface TimeLogDAO {
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insert(log: TimeLog)
 
-//    @Query("update racelog set time = :time where id = :id")
-//    fun updateTimeLog(log: TimeLog)
+    @Query("update racelog set time = :time, bib = :bib where id = :id")
+    fun updateTimeLog(time: String, bib: String, id: Int)
 //
     @Delete
     fun deleteTimeLog(log: TimeLog)

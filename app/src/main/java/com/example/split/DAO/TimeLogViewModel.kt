@@ -15,10 +15,10 @@ class TimeLogViewModel(private val repo: TimeLogRepo): ViewModel() {
         repo.insert(log)
     }
 
-//    fun update(time: String, id: Int) = viewModelScope.launch {
-//        repo.update(time, id)
-//    }
-//
+    fun update(time: String, bib: String,id: Int) = viewModelScope.launch {
+        repo.update(time, bib, id)
+    }
+
     fun delete(log: TimeLog) = viewModelScope.launch {
         repo.delete(log)
     }
