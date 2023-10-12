@@ -19,9 +19,9 @@ class TimeLogViewModel(private val repo: TimeLogRepo): ViewModel() {
 //        repo.update(time, id)
 //    }
 //
-//    fun delete(id: Int) = viewModelScope.launch {
-//        repo.delete(id)
-//    }
+    fun delete(log: TimeLog) = viewModelScope.launch {
+        repo.delete(log)
+    }
 
 }
 

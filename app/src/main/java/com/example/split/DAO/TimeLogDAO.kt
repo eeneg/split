@@ -1,6 +1,7 @@
 package com.example.split.DAO
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -17,8 +18,8 @@ interface TimeLogDAO {
 //    @Query("update racelog set time = :time where id = :id")
 //    fun updateTimeLog(log: TimeLog)
 //
-//    @Query("delete from racelog where id = :id")
-//    fun deleteTimeLog(id: TimeLog)
+    @Delete
+    fun deleteTimeLog(log: TimeLog)
 
     @Query("delete from racelog")
     fun deleteAll()

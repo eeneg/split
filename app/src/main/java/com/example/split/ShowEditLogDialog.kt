@@ -3,15 +3,20 @@ package com.example.split
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.NumberPicker
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
 import com.example.split.DAO.TimeLog
+import com.example.split.DAO.TimeLogApplication
+import com.example.split.DAO.TimeLogViewModel
+import com.example.split.DAO.TimeLogViewModelFactory
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
-class ShowEditLogDialog(log: TimeLog): DialogFragment() {
+class ShowEditLogDialog(log: TimeLog, activity: Context): DialogFragment() {
 
     val iLog = log
 
@@ -20,6 +25,10 @@ class ShowEditLogDialog(log: TimeLog): DialogFragment() {
     val mins = LocalTime.parse(iLog.time).format(DateTimeFormatter.ofPattern("mm"))
 
     val secs = LocalTime.parse(iLog.time).format(DateTimeFormatter.ofPattern("ss"))
+
+    private val timeLogViewModel: TimeLogViewModel by viewModels {
+        TimeLogViewModelFactory((activity.applicationContext as TimeLogApplication).repo)
+    }
     @SuppressLint("InflateParams")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
@@ -52,7 +61,7 @@ class ShowEditLogDialog(log: TimeLog): DialogFragment() {
             builder.setView(subView)
                 .setNeutralButton("Delete"
                 ) { _, _ ->
-
+                    timeLogViewModel.delete(iLog)
                 }
                 .setPositiveButton("Save"
                 ) { _, _ ->

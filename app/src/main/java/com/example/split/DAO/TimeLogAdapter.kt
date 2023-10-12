@@ -20,7 +20,7 @@ class TimeLogAdapter : ListAdapter<TimeLog, TimeLogAdapter.TimeLogViewHolder>(Bi
         val current = getItem(position)
         holder.bind(current.bib, current.time)
         holder.itemView.setOnClickListener{
-            ShowEditLogDialog(current).show((holder.itemView.context as AppCompatActivity).supportFragmentManager, "write dialog")
+            ShowEditLogDialog(current, holder.itemView.context).show((holder.itemView.context as AppCompatActivity).supportFragmentManager, "write dialog")
         }
     }
 

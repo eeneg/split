@@ -2,7 +2,10 @@ package com.example.split.DAO
 
 import android.database.sqlite.SQLiteConstraintException
 import androidx.annotation.WorkerThread
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 
 class TimeLogRepo(private val timeLogDAO: TimeLogDAO) {
 
@@ -22,9 +25,10 @@ class TimeLogRepo(private val timeLogDAO: TimeLogDAO) {
 //        timeLogDAO.updateTimeLog(time, id)
 //    }
 //
-//    @WorkerThread
-//    fun delete(id: TimeLog) {
-//        timeLogDAO.deleteTimeLog(id)
-//    }
+    @OptIn(DelicateCoroutinesApi::class)
+    @WorkerThread
+    fun delete(log: TimeLog) {
+        GlobalScope.launch { timeLogDAO.deleteTimeLog(log) }
+    }
 
 }
