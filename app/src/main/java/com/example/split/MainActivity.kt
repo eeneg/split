@@ -29,7 +29,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.recyclerview.widget.RecyclerView
 import com.example.split.DAO.TimeLog
 import com.example.split.DAO.TimeLogApplication
 import com.example.split.DAO.TimeLogViewModel
@@ -113,7 +112,7 @@ class MainActivity : AppCompatActivity() {
             this,
             0,
             Intent(this, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP),
-            0
+            PendingIntent.FLAG_MUTABLE
         )
         val tagDetected = IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED)
         tagDetected.addCategory(Intent.CATEGORY_DEFAULT)
