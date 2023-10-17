@@ -62,4 +62,6 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.2'
     implementation "android.arch.lifecycle:common-java8:1.1.1"
 
+//    http
+    implementation "com.android.volley:volley:1.2.1"
 }
