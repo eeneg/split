@@ -33,7 +33,6 @@ import com.example.split.DAO.TimeLog
 import com.example.split.DAO.TimeLogApplication
 import com.example.split.DAO.TimeLogViewModel
 import com.example.split.DAO.TimeLogViewModelFactory
-import com.example.split.Databasec.DBRaceLog
 import com.example.split.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
 import java.io.IOException
@@ -55,8 +54,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var pendingIntent: PendingIntent
     var tag: Tag? = null
     lateinit var writeTagFilters: Array<IntentFilter>
-
-    private lateinit var dbRaceLog: DBRaceLog
 
     private val timeLogViewModel: TimeLogViewModel by viewModels {
         TimeLogViewModelFactory((application as TimeLogApplication).repo)
@@ -100,8 +97,6 @@ class MainActivity : AppCompatActivity() {
 
         nameHeader.setText(sharedPref.getString("name", null).toString())
         usernameHeader.setText(sharedPref.getString("username", null).toString())
-
-        dbRaceLog = DBRaceLog(this)
 
         nfcAdapter = NfcAdapter.getDefaultAdapter(this)
         if (nfcAdapter == null) {

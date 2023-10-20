@@ -20,7 +20,6 @@ import com.example.split.DAO.TimeLogAdapter
 import com.example.split.DAO.TimeLogApplication
 import com.example.split.DAO.TimeLogViewModel
 import com.example.split.DAO.TimeLogViewModelFactory
-import com.example.split.Databasec.DBRaceLog
 import com.example.split.databinding.FragmentScanNFCBinding
 
 class ScanFragment : Fragment(){
@@ -32,7 +31,6 @@ class ScanFragment : Fragment(){
     private lateinit var textView2 : TextView
     private lateinit var switchScan : SwitchCompat
     private lateinit var data: RecyclerView
-    private lateinit var dbRaceLog: DBRaceLog
 
     private lateinit var sync: Button
 
@@ -54,7 +52,6 @@ class ScanFragment : Fragment(){
         sync = view.findViewById(R.id.syncButton)
         switchScan = view.findViewById(R.id.switch1)
         data = view.findViewById(R.id.list)
-        dbRaceLog = DBRaceLog(activity)
 
         val main = MainActivity()
 

@@ -77,12 +77,13 @@ class LoginFragment : Fragment() {
                     {
                         editor.putString("id", user.getString(user.getColumnIndex("id")))
                         editor.putString("name", user.getString(user.getColumnIndex("name")))
+                        User(user.getString(user.getColumnIndex("id")).toInt(), user.getString(user.getColumnIndex("name")), username)
                     }
 
                     editor.putString("username", username)
                     editor.putString("password", password)
 
-                    editor.apply()
+                    editor.commit()
 
                     viewModel.name = user.getString(user.getColumnIndex("name"))
                     viewModel.username = user.getString(user.getColumnIndex("username"))
