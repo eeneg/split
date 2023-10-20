@@ -14,7 +14,7 @@ class DBHelper(
 ) : SQLiteOpenHelper(context, "users", null, 1) {
 
     override fun onCreate(p0: SQLiteDatabase?) {
-        p0?.execSQL("create table 'users' ('id' INTEGER primary key AUTOINCREMENT, 'name' varchar(16), 'username' varchar(16), 'password' varchar(50))")
+        p0?.execSQL("create table 'users' ('id' INTEGER primary key AUTOINCREMENT, 'name' varchar(16), 'username' varchar(16), 'token' text, 'password' varchar(50))")
 
         p0?.execSQL("insert into users (name, username, password) values ('administrator', 'admin', 'root')")
     }
