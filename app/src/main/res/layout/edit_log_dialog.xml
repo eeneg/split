@@ -38,19 +38,19 @@
         <NumberPicker
             android:id="@+id/numpicker_hours"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <NumberPicker
             android:id="@+id/numpicker_mins"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"/>
+            android:layout_marginRight="8dp" />
 
         <NumberPicker
             android:id="@+id/numpicker_secs"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

@@ -97,6 +97,23 @@ class DBHelper(
         return result == 1
     }
 
+    fun getToken(id: String): Cursor? {
+        val p0 = this.readableDatabase
+        val query = p0.rawQuery("select * from users where id = ?", arrayOf(id))
+        return query
+    }
+
+    fun inputToken(id: String, token: String): Boolean {
+        val p0 = this.writableDatabase
+        val contentValues = ContentValues()
+
+        contentValues.put("token", token)
+
+        val result = p0.update("users", contentValues, "id=?", arrayOf(id))
+
+        return result == 1
+    }
+
 
 
 }
