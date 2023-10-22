@@ -42,6 +42,7 @@
     <string name="edit_time">Edit Time</string>
     <string name="token">Token</string>
     <string name="add_token">Add Token</string>
+    <string name="erase">Erase</string>
 
     <string-array name="action">
         <item>Edit</item>

@@ -9,14 +9,15 @@ import kotlinx.coroutines.launch
 
 class TimeLogRepo(private val timeLogDAO: TimeLogDAO) {
 
-    val allLogs: Flow<List<TimeLog>> = timeLogDAO.getTimeLog()
+
+    var allLogs: Flow<List<TimeLog>> = timeLogDAO.getTimeLog()
 
     @WorkerThread
     suspend fun insert(log: TimeLog) {
         try {
             timeLogDAO.insert(log)
         }catch (_: SQLiteConstraintException){
-            
+
         }
     }
 
@@ -30,6 +31,11 @@ class TimeLogRepo(private val timeLogDAO: TimeLogDAO) {
     @WorkerThread
     fun delete(log: TimeLog) {
         GlobalScope.launch { timeLogDAO.deleteTimeLog(log) }
+    }
+
+    @OptIn(DelicateCoroutinesApi::class)
+    suspend fun deleteAll(id: String){
+        GlobalScope.launch { timeLogDAO.deleteAll(id) }
     }
 
 }

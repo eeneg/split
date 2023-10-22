@@ -1,5 +1,8 @@
 package com.example.split
 
+import android.app.AlertDialog
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -31,8 +34,11 @@ class ScanFragment : Fragment(){
     private lateinit var textView2 : TextView
     private lateinit var switchScan : SwitchCompat
     private lateinit var data: RecyclerView
+    private lateinit var deleteAll: Button
 
     private lateinit var sync: Button
+
+    private lateinit var sharedPref : SharedPreferences
 
     private val timeLogViewModel: TimeLogViewModel by viewModels {
         TimeLogViewModelFactory((activity?.application as TimeLogApplication).repo)
@@ -52,6 +58,11 @@ class ScanFragment : Fragment(){
         sync = view.findViewById(R.id.syncButton)
         switchScan = view.findViewById(R.id.switch1)
         data = view.findViewById(R.id.list)
+        deleteAll = view.findViewById(R.id.deleteAllBtn)
+
+        sharedPref = activity?.getSharedPreferences("key", Context.MODE_PRIVATE)!!
+
+        val id = sharedPref.getString("id", null).toString()
 
         val main = MainActivity()
 
@@ -68,8 +79,8 @@ class ScanFragment : Fragment(){
         data.layoutManager = LinearLayoutManager(activity)
 
         timeLogViewModel.allLogs.observe(requireActivity()) { logs ->
-            logs.let {
-                timeLogAdapter.submitList(it)
+            logs.let { it ->
+                timeLogAdapter.submitList(it.filter { it.userId == id})
                 data.smoothScrollToPosition(0)
             }
         }
@@ -90,6 +101,21 @@ class ScanFragment : Fragment(){
 //            val log = TimeLog("0001", LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")).toString())
 //            timeLogViewModel.insert(log)
             queue.add(stringRequest)
+        }
+
+        deleteAll.setOnClickListener {
+            val builder: AlertDialog.Builder = AlertDialog.Builder(activity)
+            builder
+                .setMessage("You won't be able to revert this!")
+                .setTitle("Are you Sure?")
+                .setPositiveButton("Confirm") { dialog, which ->
+                    timeLogViewModel.deleteAll(id)
+                }
+                .setNegativeButton("Cancel") { dialog, which ->
+                    dialog.dismiss()
+                }
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
         }
 
         return view

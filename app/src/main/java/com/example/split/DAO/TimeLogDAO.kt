@@ -21,7 +21,7 @@ interface TimeLogDAO {
     @Delete
     fun deleteTimeLog(log: TimeLog)
 
-    @Query("delete from racelog")
-    fun deleteAll()
+    @Query("delete from racelog where userId = :id")
+    fun deleteAll(id: String)
 
 }

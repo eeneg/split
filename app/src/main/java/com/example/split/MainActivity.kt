@@ -165,7 +165,7 @@ class MainActivity : AppCompatActivity() {
                 payload.size - languageCodeLength - 1,
                 textEncoding
             )
-            val log = TimeLog(text, LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")).toString())
+            val log = TimeLog(text, LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")).toString(), sharedPref.getString("id", null).toString())
             timeLogViewModel.insert(log)
         } catch (e: UnsupportedEncodingException) {
             Log.e("UnsupportedEncoding", e.toString())

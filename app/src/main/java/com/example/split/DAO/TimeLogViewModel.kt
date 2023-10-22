@@ -23,6 +23,10 @@ class TimeLogViewModel(private val repo: TimeLogRepo): ViewModel() {
         repo.delete(log)
     }
 
+    fun deleteAll(id :String) = viewModelScope.launch{
+        repo.deleteAll(id)
+    }
+
 }
 
 class TimeLogViewModelFactory(private val repo: TimeLogRepo) : ViewModelProvider.Factory {

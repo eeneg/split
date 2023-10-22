@@ -10,6 +10,7 @@ import androidx.room.PrimaryKey
 class TimeLog (
     @ColumnInfo(name = "bib") var bib: String,
     @ColumnInfo(name = "time")var time: String,
+    @ColumnInfo(name = "userId") var userId: String
 ){
     @PrimaryKey(autoGenerate = true) var id: Int = 0
 }
