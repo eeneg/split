@@ -72,18 +72,13 @@ class ProfileFragment : Fragment() {
 
         val id = sharedPref.getString("id", null).toString()
 
-        val options = ScanOptions()
-        options.setPrompt("Scan qr code")
-        options.setBeepEnabled(true)
-
-
         val tokenDb = database.getToken(id)
         if(tokenDb?.moveToFirst() == true){
-            val tokenValue = tokenDb.getString(tokenDb.getColumnIndex("token")).toString()
-            if(tokenValue != "null"){
+            val tokenValue = tokenDb.getString(tokenDb.getColumnIndex("token"))
+            if(tokenValue != null){
                 token.text = "******${tokenValue.substring(tokenValue.length - 4)}"
             }else{
-                token.text = ""
+                token.text = "NO TOKEN"
             }
         }
 
@@ -99,7 +94,10 @@ class ProfileFragment : Fragment() {
         }
 
         addToken.setOnClickListener {
-            qrCode.launch(ScanOptions())
+            val options = ScanOptions()
+            options.setPrompt("Scan qr code")
+            options.setBeepEnabled(true)
+            qrCode.launch(options)
         }
 
         saveNameBtn.setOnClickListener{

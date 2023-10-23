@@ -9,8 +9,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextClock
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -35,6 +37,7 @@ class ScanFragment : Fragment(){
     private lateinit var switchScan : SwitchCompat
     private lateinit var data: RecyclerView
     private lateinit var deleteAll: Button
+    private lateinit var ipField : EditText
 
     private lateinit var sync: Button
 
@@ -58,6 +61,7 @@ class ScanFragment : Fragment(){
         sync = view.findViewById(R.id.syncButton)
         switchScan = view.findViewById(R.id.switch1)
         data = view.findViewById(R.id.list)
+        ipField = view.findViewById(R.id.ipField)
         deleteAll = view.findViewById(R.id.deleteAllBtn)
 
         sharedPref = activity?.getSharedPreferences("key", Context.MODE_PRIVATE)!!
@@ -100,7 +104,11 @@ class ScanFragment : Fragment(){
         sync.setOnClickListener {
 //            val log = TimeLog("0001", LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")).toString())
 //            timeLogViewModel.insert(log)
-            queue.add(stringRequest)
+            if(ipField.text.isEmpty()){
+                Toast.makeText(activity, "Empty URL", Toast.LENGTH_SHORT).show()
+            }else{
+                queue.add(stringRequest)
+            }
         }
 
         deleteAll.setOnClickListener {

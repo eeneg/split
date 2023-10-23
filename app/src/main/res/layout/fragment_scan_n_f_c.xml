@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scanNFCFragment"
     android:tag="scanNFCFragmentTag"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ScanFragment">
+    tools:context=".ScanFragment"
+    android:gravity="center"
+    android:orientation="vertical">
 
     <TextClock
         android:id="@+id/textClock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="46dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:format12Hour="hh:mm:ss a"
         android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,73 +27,88 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/timeLog"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textClock" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list"
-        android:layout_width="354dp"
-        android:layout_height="382dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/active_scan"
-        app:layout_constraintBottom_toTopOf="@+id/switch1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/list"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/switch1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <EditText
+        android:id="@+id/ipField"
+        android:layout_width="247dp"
+        android:layout_height="47dp"
+        android:ems="10"
         android:layout_marginBottom="16dp"
-        android:text="@string/scan"
-        android:checked="false"
-        app:layout_constraintBottom_toTopOf="@+id/syncButton"
+        android:hint="@string/ip"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/list"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="UseSwitchCompatOrMaterialXml" />
-
-    <Button
-        android:id="@+id/syncButton"
-        android:layout_width="211dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="32dp"
-        android:text="@string/sync"
-        app:layout_constraintBottom_toBottomOf="parent"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.855"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/deleteAllBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:background="?android:attr/selectableItemBackground"
-        android:text="@string/erase"
-        android:textColor="@color/red"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/syncButton"
-        app:layout_constraintHorizontal_bias="0.518"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="351dp"
+        android:layout_height="357dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch1"
-        app:layout_constraintVertical_bias="0.333" />
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="211dp" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/active_scan"
+            app:layout_constraintBottom_toTopOf="@+id/switch1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_bias="0.709" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:checked="false"
+            android:text="@string/scan"
+            app:layout_constraintBottom_toTopOf="@+id/syncButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+        <Button
+            android:id="@+id/syncButton"
+            android:layout_width="211dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="32dp"
+            android:text="@string/sync"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.85"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/deleteAllBtn"
+            android:layout_width="97dp"
+            android:layout_height="60dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:text="@string/erase"
+            android:textColor="@color/red"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/syncButton"
+            app:layout_constraintHorizontal_bias="0.54"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/switch1"
+            app:layout_constraintVertical_bias="0.108" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
