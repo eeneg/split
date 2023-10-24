@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,13 +18,15 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
-import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
 import com.example.split.DAO.TimeLogAdapter
 import com.example.split.DAO.TimeLogApplication
 import com.example.split.DAO.TimeLogViewModel
 import com.example.split.DAO.TimeLogViewModelFactory
 import com.example.split.databinding.FragmentScanNFCBinding
+import com.google.gson.Gson
+import org.json.JSONArray
 
 class ScanFragment : Fragment(){
 
@@ -89,25 +90,23 @@ class ScanFragment : Fragment(){
             }
         }
 
-        val queue = Volley.newRequestQueue(activity)
-        val url = "http://172.22.100.126/checkpoints/sync"
-
-        val stringRequest = StringRequest(
-            Request.Method.POST, url,
-            { response ->
-                Log.i("res", response.substring(0, 500))
-            },
-            { e ->
-                Log.i("err", e.toString())
-            })
-
         sync.setOnClickListener {
-//            val log = TimeLog("0001", LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")).toString())
-//            timeLogViewModel.insert(log)
             if(ipField.text.isEmpty()){
                 Toast.makeText(activity, "Empty URL", Toast.LENGTH_SHORT).show()
             }else{
-                queue.add(stringRequest)
+                val queue = Volley.newRequestQueue(activity)
+                val url = "http://"+ipField.text+"/checkpoints/sync"
+                val gson = Gson()
+                val data = JSONArray()
+                val jsonData = gson.toJson(timeLogViewModel.allLogs)
+                data.put(jsonData)
+                val jsonArrayRequest = JsonArrayRequest(Request.Method.POST, url, data,
+                    { response ->
+                        Toast.makeText(activity, response.toString(), Toast.LENGTH_SHORT).show()
+                    },
+                    { error ->
+                        Toast.makeText(activity, error.toString(), Toast.LENGTH_SHORT).show()
+                    })
             }
         }
 
