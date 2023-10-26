@@ -1,5 +1,6 @@
 package com.example.split.Database
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
@@ -97,10 +98,15 @@ class DBHelper(
         return result == 1
     }
 
-    fun getToken(id: String): Cursor? {
+    @SuppressLint("Range")
+    fun getToken(id: String): String? {
         val p0 = this.readableDatabase
         val query = p0.rawQuery("select * from users where id = ?", arrayOf(id))
-        return query
+        if(query.moveToFirst()){
+            return query.getString(query.getColumnIndex("token"))
+        }else{
+            return null
+        }
     }
 
     fun inputToken(id: String, token: String): Boolean {

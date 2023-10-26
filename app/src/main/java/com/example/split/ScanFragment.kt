@@ -3,7 +3,9 @@ package com.example.split
 import android.app.AlertDialog
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,21 +14,22 @@ import android.widget.EditText
 import android.widget.TextClock
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
-import com.android.volley.toolbox.JsonArrayRequest
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.split.DAO.TimeLogAdapter
 import com.example.split.DAO.TimeLogApplication
 import com.example.split.DAO.TimeLogViewModel
 import com.example.split.DAO.TimeLogViewModelFactory
+import com.example.split.Database.DBHelper
 import com.example.split.databinding.FragmentScanNFCBinding
-import com.google.gson.Gson
-import org.json.JSONArray
 
 class ScanFragment : Fragment(){
 
@@ -44,10 +47,13 @@ class ScanFragment : Fragment(){
 
     private lateinit var sharedPref : SharedPreferences
 
+    private lateinit var database:DBHelper
+
     private val timeLogViewModel: TimeLogViewModel by viewModels {
         TimeLogViewModelFactory((activity?.application as TimeLogApplication).repo)
     }
 
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -64,6 +70,8 @@ class ScanFragment : Fragment(){
         data = view.findViewById(R.id.list)
         ipField = view.findViewById(R.id.ipField)
         deleteAll = view.findViewById(R.id.deleteAllBtn)
+
+        database = DBHelper(activity)
 
         sharedPref = activity?.getSharedPreferences("key", Context.MODE_PRIVATE)!!
 
@@ -91,22 +99,40 @@ class ScanFragment : Fragment(){
         }
 
         sync.setOnClickListener {
+            ipField.setText("172.22.100.217:8000")
+            val token = database.getToken(id)
             if(ipField.text.isEmpty()){
                 Toast.makeText(activity, "Empty URL", Toast.LENGTH_SHORT).show()
+            }else if(token == null) {
+                Toast.makeText(activity, "User does not have a token", Toast.LENGTH_SHORT).show()
             }else{
                 val queue = Volley.newRequestQueue(activity)
-                val url = "http://"+ipField.text+"/checkpoints/sync"
-                val gson = Gson()
-                val data = JSONArray()
-                val jsonData = gson.toJson(timeLogViewModel.allLogs)
-                data.put(jsonData)
-                val jsonArrayRequest = JsonArrayRequest(Request.Method.POST, url, data,
-                    { response ->
+                val url = "http://172.22.100.217:8000/checkpoints/sync"
+                val jsonArrayRequest = object : StringRequest(
+                    Request.Method.POST, url,
+                    Response.Listener { response ->
                         Toast.makeText(activity, response.toString(), Toast.LENGTH_SHORT).show()
+                        Log.i("succ", response.toString())
                     },
-                    { error ->
+                    Response.ErrorListener { error ->
                         Toast.makeText(activity, error.toString(), Toast.LENGTH_SHORT).show()
+                        Log.i("err", error.toString())
                     })
+                {
+                    @Override
+                    override fun getHeaders(): MutableMap<String, String> {
+                        val headers = HashMap<String, String>()
+                        headers["Authorization"] = "Bearer $token"
+                        return headers
+                    }
+                    @Override
+                    override fun getParams(): Map<String, String>? {
+                        val splits = hashMapOf<String, String>()
+                        splits["time"] = "timeLogViewModel.allLogs"
+                        return splits
+                    }
+                }
+                queue.add(jsonArrayRequest)
             }
         }
 

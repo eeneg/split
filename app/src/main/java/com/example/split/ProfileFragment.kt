@@ -73,14 +73,12 @@ class ProfileFragment : Fragment() {
         val id = sharedPref.getString("id", null).toString()
 
         val tokenDb = database.getToken(id)
-        if(tokenDb?.moveToFirst() == true){
-            val tokenValue = tokenDb.getString(tokenDb.getColumnIndex("token"))
-            if(tokenValue != null){
-                token.text = "******${tokenValue.substring(tokenValue.length - 4)}"
-            }else{
-                token.text = "NO TOKEN"
-            }
+        if(tokenDb != null){
+            token.text = "******${tokenDb.substring(tokenDb.length - 4)}"
+        }else{
+            token.text = "NO TOKEN"
         }
+
 
 
         val qrCode = registerForActivityResult(ScanContract()) { result ->
