@@ -17,7 +17,7 @@ interface TimeLogDAO {
 
     @Query("update racelog set time = :time, bib = :bib where id = :id")
     fun updateTimeLog(time: String, bib: String, id: Int)
-//
+
     @Delete
     fun deleteTimeLog(log: TimeLog)
 

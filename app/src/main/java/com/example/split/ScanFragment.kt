@@ -99,7 +99,6 @@ class ScanFragment : Fragment(){
         }
 
         sync.setOnClickListener {
-            ipField.setText("172.22.100.217:8000")
             val token = database.getToken(id)
             if(ipField.text.isEmpty()){
                 Toast.makeText(activity, "Empty URL", Toast.LENGTH_SHORT).show()
@@ -107,8 +106,8 @@ class ScanFragment : Fragment(){
                 Toast.makeText(activity, "User does not have a token", Toast.LENGTH_SHORT).show()
             }else{
                 val queue = Volley.newRequestQueue(activity)
-                val url = "http://172.22.100.217:8000/checkpoints/sync"
-                val jsonArrayRequest = object : StringRequest(
+                val url = "http://"+ipField.text+"/checkpoints/sync"
+                val jsonRequest = object : StringRequest(
                     Request.Method.POST, url,
                     Response.Listener { response ->
                         Toast.makeText(activity, response.toString(), Toast.LENGTH_SHORT).show()
@@ -126,13 +125,19 @@ class ScanFragment : Fragment(){
                         return headers
                     }
                     @Override
-                    override fun getParams(): Map<String, String>? {
+                    override fun getParams(): MutableMap<String, String>{
                         val splits = hashMapOf<String, String>()
-                        splits["time"] = "timeLogViewModel.allLogs"
+                        timeLogViewModel.allLogs.value?.forEachIndexed { i, data ->
+                            if (data.userId == id){
+                                splits["splits[$i][bib]"] = data.bib
+                                splits["splits[$i][time]"] = data.time
+                            }
+                        }
+                        println(splits)
                         return splits
                     }
                 }
-                queue.add(jsonArrayRequest)
+                queue.add(jsonRequest)
             }
         }
 
