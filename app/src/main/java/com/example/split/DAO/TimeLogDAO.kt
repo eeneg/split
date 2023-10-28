@@ -12,7 +12,7 @@ interface TimeLogDAO {
     @Query("select * from racelog order by time DESC")
     fun getTimeLog(): Flow<List<TimeLog>>
 
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(log: TimeLog)
 
     @Query("update racelog set time = :time, bib = :bib where id = :id")

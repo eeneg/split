@@ -1,5 +1,7 @@
 package com.example.split
 
+import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -59,6 +61,8 @@ class MainActivity : AppCompatActivity() {
         TimeLogViewModelFactory((application as TimeLogApplication).repo)
     }
 
+    private lateinit var list: List<TimeLog>
+
     companion object {
         var writeMode = false
         var writeText = ""
@@ -94,6 +98,10 @@ class MainActivity : AppCompatActivity() {
         val usernameHeader : TextView = headerView.findViewById(R.id.usernameHeader)
 
         sharedPref = this.getSharedPreferences("key", Context.MODE_PRIVATE)!!
+
+        timeLogViewModel.allLogs.observe(this) { logs ->
+            list = logs
+        }
 
         nameHeader.setText(sharedPref.getString("name", null).toString())
         usernameHeader.setText(sharedPref.getString("username", null).toString())
@@ -152,6 +160,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.P)
+    @SuppressLint("SuspiciousIndentation")
     private fun buildTagViews(msgs: Array<NdefMessage>) {
         if (msgs == null || msgs.isEmpty()) return
         var text = ""
@@ -165,8 +175,29 @@ class MainActivity : AppCompatActivity() {
                 payload.size - languageCodeLength - 1,
                 textEncoding
             )
-            val log = TimeLog(text, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).toString(), sharedPref.getString("id", null).toString())
-            timeLogViewModel.insert(log)
+            val log = TimeLog(text, LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")).toString(), LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), sharedPref.getString("id", null).toString())
+            val filtered = list.filter { it.bib == log.bib && it.userId == sharedPref.getString("id", null).toString()}
+            var exist = filtered.isEmpty()
+            if(!exist){
+                var data = filtered[0].time
+                val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+                builder
+                    .setTitle("Duplicate Entry!")
+                    .setMessage("Overwrite Previous Time Log?\n\nReplace $data with ${log.time}?")
+                    .setPositiveButton("Confirm") { dialog, which ->
+                        timeLogViewModel.insert(log)
+                        Toast.makeText(this, "Done!", Toast.LENGTH_SHORT).show()
+                    }
+                    .setNegativeButton("Cancel") { dialog, which ->
+                        Toast.makeText(this, "Canceled", Toast.LENGTH_SHORT).show()
+                        dialog.dismiss()
+                    }
+                val dialog: AlertDialog = builder.create()
+                dialog.show()
+            }else{
+                timeLogViewModel.insert(log)
+            }
+
         } catch (e: UnsupportedEncodingException) {
             Log.e("UnsupportedEncoding", e.toString())
         }

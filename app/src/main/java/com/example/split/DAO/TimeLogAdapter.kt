@@ -18,7 +18,7 @@ class TimeLogAdapter : ListAdapter<TimeLog, TimeLogAdapter.TimeLogViewHolder>(Bi
 
     override fun onBindViewHolder(holder: TimeLogViewHolder, position: Int) {
         val current = getItem(position)
-        holder.bind(current.bib, current.time)
+        holder.bind(current.bib, current.time, current.date)
         holder.itemView.setOnClickListener{
             ShowEditLogDialog(current, holder.itemView.context).show((holder.itemView.context as AppCompatActivity).supportFragmentManager, "write dialog")
         }
@@ -28,9 +28,10 @@ class TimeLogAdapter : ListAdapter<TimeLog, TimeLogAdapter.TimeLogViewHolder>(Bi
         private val bibItemView: TextView = itemView.findViewById(R.id.bib)
         private val timeItemView: TextView = itemView.findViewById(R.id.time)
 
-        fun bind(bib: String, time: String){
+        @SuppressLint("SetTextI18n")
+        fun bind(bib: String, time: String, date: String){
             bibItemView.text = bib
-            timeItemView.text = time
+            timeItemView.text = "Time: $time Date: $date"
         }
 
         companion object{

@@ -144,8 +144,8 @@ class ScanFragment : Fragment(){
         deleteAll.setOnClickListener {
             val builder: AlertDialog.Builder = AlertDialog.Builder(activity)
             builder
-                .setMessage("You won't be able to revert this!")
                 .setTitle("Are you Sure?")
+                .setMessage("You won't be able to revert this!")
                 .setPositiveButton("Confirm") { dialog, which ->
                     timeLogViewModel.deleteAll(id)
                 }
