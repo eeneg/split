@@ -106,9 +106,21 @@ class MainActivity : AppCompatActivity() {
         nameHeader.setText(sharedPref.getString("name", null).toString())
         usernameHeader.setText(sharedPref.getString("username", null).toString())
 
-        nfcAdapter = NfcAdapter.getDefaultAdapter(this)
-        if (nfcAdapter == null) {
-            Toast.makeText(this, "Device does not support NFC", Toast.LENGTH_LONG).show()
+        val nfcA = NfcAdapter.getDefaultAdapter(this)
+
+        try {
+            nfcAdapter = nfcA
+        }catch (e: RuntimeException){
+            val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+            builder
+                .setTitle("Error!")
+                .setMessage("This Device Does NOT Support NFC!!")
+                .setNegativeButton("Cancel") { dialog, which ->
+                    finish()
+                }
+                .setCancelable(false)
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
         }
 
         pendingIntent = PendingIntent.getActivity(
@@ -122,6 +134,7 @@ class MainActivity : AppCompatActivity() {
         writeTagFilters = arrayOf(tagDetected)
     }
 
+    @RequiresApi(Build.VERSION_CODES.P)
     fun processNFC(intent: Intent){
         if(writeMode == false){
             if(activescan){
@@ -148,6 +161,7 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Go to Write Or Scan page to get started", Toast.LENGTH_LONG).show()
         }
     }
+    @RequiresApi(Build.VERSION_CODES.P)
     private fun readFromIntent(intent: Intent) {
         tag = intent.getParcelableExtra<Parcelable>(NfcAdapter.EXTRA_TAG) as Tag?
         val rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES)
@@ -232,6 +246,7 @@ class MainActivity : AppCompatActivity() {
         System.arraycopy(textBytes, 0, payload, 1 + langLength, textLength)
         return NdefRecord(NdefRecord.TNF_WELL_KNOWN, NdefRecord.RTD_TEXT, ByteArray(0), payload)
     }
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         processNFC(intent)
@@ -243,12 +258,20 @@ class MainActivity : AppCompatActivity() {
 
     public override fun onPause() {
         super.onPause()
-        nfcAdapter.disableForegroundDispatch(this)
+        try {
+            nfcAdapter.disableForegroundDispatch(this)
+        }catch (e: Exception){
+            Log.i("on pause", e.toString())
+        }
     }
 
     public override fun onResume() {
         super.onResume()
-        nfcAdapter.enableForegroundDispatch(this, pendingIntent, writeTagFilters, null)
+        try {
+            nfcAdapter.enableForegroundDispatch(this, pendingIntent, writeTagFilters, null)
+        }catch (e: Exception){
+            Log.i("on resume", e.toString())
+        }
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         sharedPref = this.getSharedPreferences("key", Context.MODE_PRIVATE)!!

@@ -10,7 +10,7 @@
     <string name="confirmpassword">Confirm Password</string>
     <string name="scan">Scan</string>
     <string name="timelist">Time List</string>
-    <string name="name">Full name</string>
+    <string name="name">Account Name</string>
     <string name="confirmPassword">Confirm Password</string>
     <string name="title_activity_nfc">ActivityNFC</string>
     <!-- Strings used for fragments for navigation -->
@@ -45,6 +45,7 @@
     <string name="erase">Erase</string>
     <string name="ip">IP</string>
     <string name="edit_date">Edit Date</string>
+    <string name="full_name">Full Name</string>
 
     <string-array name="action">
         <item>Edit</item>
