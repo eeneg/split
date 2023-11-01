@@ -130,7 +130,7 @@ class ScanFragment : Fragment(){
                         timeLogViewModel.allLogs.value?.forEachIndexed { i, data ->
                             if (data.userId == id){
                                 splits["splits[$i][bib]"] = data.bib
-                                splits["splits[$i][time]"] = data.time
+                                splits["splits[$i][time]"] = data.date + " " + data.time
                             }
                         }
                         println(splits)
