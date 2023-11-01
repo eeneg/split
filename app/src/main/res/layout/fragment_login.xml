@@ -51,7 +51,6 @@
         android:layout_marginTop="24dp"
         android:background="?android:attr/selectableItemBackground"
         android:text="@string/register"
-        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
