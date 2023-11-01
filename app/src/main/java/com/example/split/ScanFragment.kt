@@ -110,11 +110,20 @@ class ScanFragment : Fragment(){
                 val jsonRequest = object : StringRequest(
                     Request.Method.POST, url,
                     Response.Listener { response ->
-                        Toast.makeText(activity, response.toString(), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(activity, "Synced Successfully", Toast.LENGTH_SHORT).show()
                         Log.i("succ", response.toString())
                     },
                     Response.ErrorListener { error ->
-                        Toast.makeText(activity, error.toString(), Toast.LENGTH_SHORT).show()
+                        val builder: AlertDialog.Builder = AlertDialog.Builder(activity)
+                        builder
+                            .setTitle("Error!")
+                            .setMessage(error.toString())
+                            .setNegativeButton("Close") { dialog, which ->
+                               dialog.dismiss()
+                            }
+                            .setCancelable(false)
+                        val dialog: AlertDialog = builder.create()
+                        dialog.show()
                         Log.i("err", error.toString())
                     })
                 {
