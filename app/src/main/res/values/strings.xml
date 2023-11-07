@@ -41,11 +41,17 @@
     <string name="nfclogo">NFCLOGO</string>
     <string name="edit_time">Edit Time</string>
     <string name="token">Token</string>
-    <string name="add_token">Add Token</string>
+    <string name="add_token">Scan Token</string>
     <string name="erase">Erase</string>
     <string name="ip">IP</string>
     <string name="edit_date">Edit Date</string>
     <string name="full_name">Full Name</string>
+    <string name="paste_token">Paste Token</string>
+    <string name="or">-OR-</string>
+    <string name="set_identifiers">Set Identifiers</string>
+    <string name="edit_account">Edit Account</string>
+    <string name="device_information">Device Information</string>
+    <string name="edit_credentials">Edit Credentials</string>
 
     <string-array name="action">
         <item>Edit</item>

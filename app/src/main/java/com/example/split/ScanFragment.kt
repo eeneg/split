@@ -105,48 +105,55 @@ class ScanFragment : Fragment(){
             }else if(token == null) {
                 Toast.makeText(activity, "User does not have a token", Toast.LENGTH_SHORT).show()
             }else{
-                val queue = Volley.newRequestQueue(activity)
-                val url = "http://"+ipField.text+"/checkpoints/sync"
-                val jsonRequest = object : StringRequest(
-                    Request.Method.POST, url,
-                    Response.Listener { response ->
-                        Toast.makeText(activity, "Synced Successfully", Toast.LENGTH_SHORT).show()
-                        Log.i("succ", response.toString())
-                    },
-                    Response.ErrorListener { error ->
-                        val builder: AlertDialog.Builder = AlertDialog.Builder(activity)
-                        builder
-                            .setTitle("Error!")
-                            .setMessage(error.toString())
-                            .setNegativeButton("Close") { dialog, which ->
-                               dialog.dismiss()
-                            }
-                            .setCancelable(false)
-                        val dialog: AlertDialog = builder.create()
-                        dialog.show()
-                        Log.i("err", error.toString())
-                    })
-                {
-                    @Override
-                    override fun getHeaders(): MutableMap<String, String> {
-                        val headers = HashMap<String, String>()
-                        headers["Authorization"] = "Bearer $token"
-                        return headers
-                    }
-                    @Override
-                    override fun getParams(): MutableMap<String, String>{
-                        val splits = hashMapOf<String, String>()
-                        timeLogViewModel.allLogs.value?.forEachIndexed { i, data ->
-                            if (data.userId == id){
-                                splits["splits[$i][bib]"] = data.bib
-                                splits["splits[$i][time]"] = data.date + " " + data.time
-                            }
+                val identifierDb = database.getIdentifier(id)
+
+                if(identifierDb != null){
+                    val queue = Volley.newRequestQueue(activity)
+                    val url = "http://"+ipField.text+"/checkpoints/sync"
+                    val jsonRequest = object : StringRequest(
+                        Request.Method.POST, url,
+                        Response.Listener { response ->
+                            Toast.makeText(activity, "Synced Successfully", Toast.LENGTH_SHORT).show()
+                            Log.i("succ", response.toString())
+                        },
+                        Response.ErrorListener { error ->
+                            val builder: AlertDialog.Builder = AlertDialog.Builder(activity)
+                            builder
+                                .setTitle("Error!")
+                                .setMessage(error.toString())
+                                .setNegativeButton("Close") { dialog, which ->
+                                    dialog.dismiss()
+                                }
+                                .setCancelable(false)
+                            val dialog: AlertDialog = builder.create()
+                            dialog.show()
+                            Log.i("err", error.toString())
+                        })
+                    {
+                        @Override
+                        override fun getHeaders(): MutableMap<String, String> {
+                            val headers = HashMap<String, String>()
+                            headers["Authorization"] = "Bearer $token"
+                            return headers
                         }
-                        println(splits)
-                        return splits
+                        @Override
+                        override fun getParams(): MutableMap<String, String>{
+                            val splits = hashMapOf<String, String>()
+                            timeLogViewModel.allLogs.value?.forEachIndexed { i, data ->
+                                if (data.userId == id){
+                                    splits["splits[$i][bib]"] = data.bib
+                                    splits["splits[$i][time]"] = data.date + " " + data.time
+                                    splits["splits[$i][identifiers]"] = identifierDb.toString()
+                                }
+                            }
+                            println(splits)
+                            return splits
+                        }
                     }
+                    queue.add(jsonRequest)
+                }else{
+                    Toast.makeText(activity, "Please set Identifiers first in the Profile Tab", Toast.LENGTH_LONG).show()
                 }
-                queue.add(jsonRequest)
             }
         }
 

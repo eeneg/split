@@ -37,7 +37,13 @@ class ProfileFragment : Fragment() {
     private lateinit var saveNameBtn: Button
     private lateinit var saveAccountBtn: Button
 
+    private lateinit var pasteTokenField: EditText
+    private lateinit var pasteTokenBtn: Button
     private lateinit var addToken: Button
+
+    private lateinit var identifierText: TextView
+    private lateinit var identifierField: EditText
+    private lateinit var saveIdentifierBtn: Button
 
     private lateinit var token : TextView
 
@@ -62,6 +68,12 @@ class ProfileFragment : Fragment() {
         saveNameBtn = view.findViewById(R.id.saveNameBtn)
         saveAccountBtn = view.findViewById(R.id.saveAccountBtn)
 
+        identifierText = view.findViewById(R.id.identifierText)
+        identifierField = view.findViewById(R.id.identifierField)
+        saveIdentifierBtn = view.findViewById(R.id.saveIdentifierBtn)
+
+        pasteTokenField = view.findViewById(R.id.pasteTokenField)
+        pasteTokenBtn = view.findViewById(R.id.pasteTokenBtn)
         addToken = view.findViewById(R.id.addToken)
 
         token = view.findViewById(R.id.token)
@@ -73,13 +85,59 @@ class ProfileFragment : Fragment() {
         val id = sharedPref.getString("id", null).toString()
 
         val tokenDb = database.getToken(id)
-        if(tokenDb != null){
+
+        val identifierDb = database.getIdentifier(id)
+
+        if(identifierDb != null){
+            identifierText.text = identifierDb
+        }
+
+        saveIdentifierBtn.setOnClickListener {
+            if(identifierField.text.isEmpty()){
+                Toast.makeText(activity, "Empty Identifier", Toast.LENGTH_SHORT).show()
+            }else{
+                database.inputIdentifier(id, identifierField.text.toString())
+
+                val updateIdentifier = database.getIdentifier(id)
+
+                if(updateIdentifier != null){
+                    identifierText.text = updateIdentifier
+                    identifierField.setText("")
+                    Toast.makeText(activity, "Saved!!", Toast.LENGTH_SHORT).show()
+                }
+
+            }
+        }
+
+        if(tokenDb != null && tokenDb.length > 4){
             token.text = "******${tokenDb.substring(tokenDb.length - 4)}"
+        }else if(tokenDb != null && tokenDb.length < 4){
+            token.text = "******${tokenDb}"
         }else{
             token.text = "NO TOKEN"
         }
 
+        pasteTokenBtn.setOnClickListener {
+            val tokenString = pasteTokenField.text
+            
+            if(tokenString.isEmpty()){
+                Toast.makeText(activity, "Empty Token", Toast.LENGTH_SHORT).show()
+            }else{
+                database.inputToken(id, tokenString.toString())
 
+                val updateTokenDb = database.getToken(id)
+
+                if(updateTokenDb!!.length > 10){
+                    token.text = "******${updateTokenDb.substring(updateTokenDb.toString().length - 4)}"
+                    Toast.makeText(activity, "Saved1!!", Toast.LENGTH_SHORT).show()
+                    pasteTokenField.setText("")
+                }else{
+                    token.text = "******${updateTokenDb}"
+                    pasteTokenField.setText("")
+                    Toast.makeText(activity, "Saved2!!", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
 
         val qrCode = registerForActivityResult(ScanContract()) { result ->
             if (result.contents == null) {
@@ -88,6 +146,7 @@ class ProfileFragment : Fragment() {
                 database.inputToken(id, result.contents.toString())
                 token.text = "******${result.contents.toString().substring(result.contents.toString().length - 4)}"
                 Toast.makeText(activity, "Scanned" + result.contents, Toast.LENGTH_LONG).show()
+                pasteTokenField.setText("")
             }
         }
 
@@ -108,7 +167,7 @@ class ProfileFragment : Fragment() {
 
                 if(result == true)
                 {
-                    Toast.makeText(activity, "Saved!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, "Saved!!", Toast.LENGTH_SHORT).show()
                 }else{
                     Toast.makeText(activity, "Failed!", Toast.LENGTH_SHORT).show()
                 }

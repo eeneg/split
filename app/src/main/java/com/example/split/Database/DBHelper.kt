@@ -15,7 +15,7 @@ class DBHelper(
 ) : SQLiteOpenHelper(context, "users", null, 1) {
 
     override fun onCreate(p0: SQLiteDatabase?) {
-        p0?.execSQL("create table 'users' ('id' INTEGER primary key AUTOINCREMENT, 'name' varchar(16), 'username' varchar(16), 'token' text, 'password' varchar(50))")
+        p0?.execSQL("create table 'users' ('id' INTEGER primary key AUTOINCREMENT, 'name' varchar(16), 'username' varchar(16), 'token' text, 'identifier' varchar(50), 'password' varchar(50))")
 
         p0?.execSQL("insert into users (name, username, password) values ('administrator', 'admin', 'root')")
     }
@@ -114,6 +114,28 @@ class DBHelper(
         val contentValues = ContentValues()
 
         contentValues.put("token", token)
+
+        val result = p0.update("users", contentValues, "id=?", arrayOf(id))
+
+        return result == 1
+    }
+
+    @SuppressLint("Range")
+    fun getIdentifier(id: String): String? {
+        val p0 = this.readableDatabase
+        val query = p0.rawQuery("select * from users where id = ?", arrayOf(id))
+        if(query.moveToFirst()){
+            return query.getString(query.getColumnIndex("identifier"))
+        }else{
+            return null
+        }
+    }
+
+    fun inputIdentifier(id: String, identifier: String): Boolean {
+        val p0 = this.writableDatabase
+        val contentValues = ContentValues()
+
+        contentValues.put("identifier", identifier)
 
         val result = p0.update("users", contentValues, "id=?", arrayOf(id))
 
