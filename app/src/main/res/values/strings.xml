@@ -52,6 +52,9 @@
     <string name="edit_account">Edit Account</string>
     <string name="device_information">Device Information</string>
     <string name="edit_credentials">Edit Credentials</string>
+    <string name="search">Search</string>
+    <string name="search_bib">Search Bib</string>
+    <string name="sync_write_events">Sync</string>
 
     <string-array name="action">
         <item>Edit</item>

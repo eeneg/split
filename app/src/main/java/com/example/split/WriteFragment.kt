@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -29,6 +30,8 @@ class WriteFragment : Fragment(), NfcAdapter.ReaderCallback {
         _binding = FragmentWriteNFCBinding.inflate(inflater, container, false)
 
         val view = binding.root
+
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
 
         bibInput = view.findViewById(R.id.bibInput)
         writeNFCbtn = view.findViewById(R.id.writeNFCbtn)
