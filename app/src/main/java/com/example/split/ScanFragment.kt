@@ -143,9 +143,9 @@ class ScanFragment : Fragment(){
                                 if (data.userId == id){
                                     splits["splits[$i][bib]"] = data.bib
                                     splits["splits[$i][time]"] = data.date + " " + data.time
-                                    splits["splits[$i][identifiers]"] = identifierDb.toString()
                                 }
                             }
+                             splits.put("identifiers", identifierDb.toString())
                             println(splits)
                             return splits
                         }
