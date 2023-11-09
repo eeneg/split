@@ -1,4 +1,4 @@
-package com.example.split.DAO
+package com.example.split.DAO.TimeLog
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View

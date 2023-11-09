@@ -10,10 +10,10 @@ import android.widget.NumberPicker
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import com.example.split.DAO.TimeLog
+import com.example.split.DAO.TimeLog.TimeLog
 import com.example.split.DAO.TimeLogApplication
-import com.example.split.DAO.TimeLogViewModel
-import com.example.split.DAO.TimeLogViewModelFactory
+import com.example.split.DAO.TimeLog.TimeLogViewModel
+import com.example.split.DAO.TimeLog.TimeLogViewModelFactory
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 

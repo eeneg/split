@@ -31,10 +31,10 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.split.DAO.TimeLog
+import com.example.split.DAO.TimeLog.TimeLog
+import com.example.split.DAO.TimeLog.TimeLogViewModel
+import com.example.split.DAO.TimeLog.TimeLogViewModelFactory
 import com.example.split.DAO.TimeLogApplication
-import com.example.split.DAO.TimeLogViewModel
-import com.example.split.DAO.TimeLogViewModelFactory
 import com.example.split.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
 import java.io.IOException

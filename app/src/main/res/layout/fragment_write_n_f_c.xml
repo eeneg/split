@@ -7,7 +7,9 @@
     tools:context=".WriteFragment">
 
     <LinearLayout
-        android:padding="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
@@ -87,11 +89,18 @@
 
                 </LinearLayout>
 
-                <Spinner
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="18dp"
-                    android:layout_marginEnd="18dp" />
+                    android:layout_marginEnd="18dp"
+                    android:gravity="right">
+                    <Spinner
+                        android:id="@+id/evenSpinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="18dp"/>
+                </LinearLayout>
 
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -108,10 +117,12 @@
 
     <LinearLayout
         android:id="@+id/writeBottomPanel"
-        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:gravity="center">
 
         <Button
@@ -119,16 +130,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="30dp"
+            android:background="?android:attr/selectableItemBackground"
             android:text="@string/erase"
-            android:textColor="@color/red"
-            android:background="?android:attr/selectableItemBackground"/>
+            android:textColor="@color/red" />
 
         <Button
             android:id="@+id/writeSyncBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
-            android:text="@string/sync_write_events"/>
+            android:text="@string/sync_write_events" />
 
     </LinearLayout>
 

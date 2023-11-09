@@ -1,4 +1,4 @@
-package com.example.split.DAO
+package com.example.split.DAO.TimeLog
 
 import androidx.room.Dao
 import androidx.room.Delete

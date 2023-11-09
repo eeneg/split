@@ -1,4 +1,4 @@
-package com.example.split.DAO
+package com.example.split.DAO.TimeLog
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

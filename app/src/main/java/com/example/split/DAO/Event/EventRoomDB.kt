@@ -1,4 +1,4 @@
-package com.example.split.DAO
+package com.example.split.DAO.Event
 
 import android.content.Context
 import androidx.room.Database
@@ -8,20 +8,23 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@Database(entities = arrayOf(TimeLog::class), version = 1, exportSchema = false)
-abstract  class TimeLogRoomDB : RoomDatabase(){
-    abstract fun timelogDao(): TimeLogDAO
+@Database(entities = arrayOf(Event::class), version = 1, exportSchema = false)
+abstract  class EventRoomDB : RoomDatabase(){
+    abstract fun eventDao(): EventDao
 
-    private class TimeLogDBCallback(
+    private class EvenCallBack(
         private val scope: CoroutineScope
     ): RoomDatabase.Callback() {
         override fun onCreate(db: SupportSQLiteDatabase){
             super.onCreate(db)
             INSTANCE?.let { database ->
                 scope.launch {
-//                    var timeLogDAO = database.timelogDao()
 
-//                    timeLogDAO.deleteAll()
+                    var eventDao = database.eventDao()
+
+                    val event = Event("12k", "1")
+
+                    eventDao.insert(event)
                 }
             }
         }
@@ -30,17 +33,17 @@ abstract  class TimeLogRoomDB : RoomDatabase(){
     companion object{
         @Volatile
 
-        private var INSTANCE: TimeLogRoomDB? = null
+        private var INSTANCE: EventRoomDB? = null
 
-        fun getDatabase(context: Context, scope: CoroutineScope): TimeLogRoomDB {
+        fun getDatabase(context: Context, scope: CoroutineScope): EventRoomDB {
             return INSTANCE ?: synchronized(this){
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    TimeLogRoomDB::class.java,
-                    "racelog"
+                    EventRoomDB::class.java,
+                    "event"
                 )
-                .addCallback(TimeLogDBCallback(scope))
-                .build()
+                    .addCallback(EvenCallBack(scope))
+                    .build()
                 INSTANCE = instance
                 instance
             }

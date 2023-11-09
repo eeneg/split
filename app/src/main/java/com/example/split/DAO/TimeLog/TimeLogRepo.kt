@@ -1,4 +1,4 @@
-package com.example.split.DAO
+package com.example.split.DAO.TimeLog
 
 import android.database.sqlite.SQLiteConstraintException
 import androidx.annotation.WorkerThread

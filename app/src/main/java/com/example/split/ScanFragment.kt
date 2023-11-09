@@ -24,10 +24,10 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.example.split.DAO.TimeLogAdapter
+import com.example.split.DAO.TimeLog.TimeLogAdapter
+import com.example.split.DAO.TimeLog.TimeLogViewModel
+import com.example.split.DAO.TimeLog.TimeLogViewModelFactory
 import com.example.split.DAO.TimeLogApplication
-import com.example.split.DAO.TimeLogViewModel
-import com.example.split.DAO.TimeLogViewModelFactory
 import com.example.split.Database.DBHelper
 import com.example.split.databinding.FragmentScanNFCBinding
 
