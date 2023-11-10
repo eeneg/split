@@ -99,6 +99,7 @@ class ScanFragment : Fragment(){
         }
 
         sync.setOnClickListener {
+            val loadingDialog = ShowLoadingDialog(requireActivity())
             val token = database.getToken(id)
             if(ipField.text.isEmpty()){
                 Toast.makeText(activity, "Empty URL", Toast.LENGTH_SHORT).show()
@@ -108,12 +109,14 @@ class ScanFragment : Fragment(){
                 val identifierDb = database.getIdentifier(id)
 
                 if(identifierDb != null){
+                    loadingDialog.showLoading()
                     val queue = Volley.newRequestQueue(activity)
                     val url = "http://"+ipField.text+"/checkpoints/sync"
                     val jsonRequest = object : StringRequest(
                         Request.Method.POST, url,
                         Response.Listener { response ->
                             Toast.makeText(activity, "Synced Successfully", Toast.LENGTH_SHORT).show()
+                            loadingDialog.hideLoading()
                             Log.i("succ", response.toString())
                         },
                         Response.ErrorListener { error ->
@@ -126,6 +129,7 @@ class ScanFragment : Fragment(){
                                 }
                                 .setCancelable(false)
                             val dialog: AlertDialog = builder.create()
+                            loadingDialog.hideLoading()
                             dialog.show()
                             Log.i("err", error.toString())
                         })

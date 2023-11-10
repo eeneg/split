@@ -196,7 +196,7 @@ class MainActivity : AppCompatActivity() {
                 var data = filtered[0].time
                 val builder: AlertDialog.Builder = AlertDialog.Builder(this)
                 builder
-                    .setTitle("Duplicate Entry!")
+                    .setTitle("Duplicate Entry! $text")
                     .setMessage("Overwrite Previous Time Log?\n\nReplace $data with ${log.time}?")
                     .setPositiveButton("Confirm") { dialog, which ->
                         timeLogViewModel.insert(log)

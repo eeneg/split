@@ -17,8 +17,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.split.DAO.Event.EventViewModel
 import com.example.split.DAO.Event.EventViewModelFactory
+import com.example.split.DAO.Participant.ParticipantAdapter
+import com.example.split.DAO.Participant.ParticipantViewModel
+import com.example.split.DAO.Participant.ParticipantViewModelFactory
 import com.example.split.DAO.TimeLogApplication
 import com.example.split.databinding.FragmentWriteNFCBinding
 
@@ -34,8 +39,16 @@ class WriteFragment : Fragment(), NfcAdapter.ReaderCallback {
 
     private lateinit var eventSpinner: Spinner
 
+    private lateinit var writeBibRecyclerView: RecyclerView
+
+    private lateinit var writeSyncBtn: Button
+
     private val eventViewModel: EventViewModel by viewModels {
         EventViewModelFactory((activity?.application as TimeLogApplication).eventRepo)
+    }
+
+    private val participantViewModel: ParticipantViewModel by viewModels {
+        ParticipantViewModelFactory((activity?.application as TimeLogApplication).participantRepo)
     }
 
     override fun onCreateView(
@@ -54,6 +67,10 @@ class WriteFragment : Fragment(), NfcAdapter.ReaderCallback {
 
         eventSpinner = view.findViewById(R.id.evenSpinner)
 
+        writeBibRecyclerView = view.findViewById(R.id.writeBibRecyclerView)
+
+        writeSyncBtn = view.findViewById(R.id.writeSyncBtn)
+
         sharedPref = activity?.getSharedPreferences("key", Context.MODE_PRIVATE)!!
         val id = sharedPref.getString("id", null).toString()
         val mainActivity = MainActivity()
@@ -65,6 +82,18 @@ class WriteFragment : Fragment(), NfcAdapter.ReaderCallback {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             eventSpinner.adapter = adapter
         }
+
+        val participantAdapter = ParticipantAdapter()
+        writeBibRecyclerView.adapter = participantAdapter
+        writeBibRecyclerView.layoutManager = LinearLayoutManager(activity)
+
+        participantViewModel.allParticipant.observe(requireActivity()) { participants ->
+            participants.let { it ->
+                participantAdapter.submitList(it.filter { it.userID == id})
+                writeBibRecyclerView.smoothScrollToPosition(0)
+            }
+        }
+
 
         writeNFCbtn.setOnClickListener{
             if(bibInput.text.toString() == ""){
