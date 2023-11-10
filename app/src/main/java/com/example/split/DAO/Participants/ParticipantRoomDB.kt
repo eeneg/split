@@ -5,8 +5,6 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.example.split.DAO.Participant.Participant
-import com.example.split.DAO.Participant.ParticipantDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -22,6 +20,11 @@ abstract  class ParticipantRoomDB : RoomDatabase(){
             INSTANCE?.let { database ->
                 scope.launch {
 
+                    val participantDao = database.participantDao()
+
+                    val p = Participant("21001", "asd asd", "1", "2k", "1")
+
+                    participantDao.insert(p)
 
                 }
             }
