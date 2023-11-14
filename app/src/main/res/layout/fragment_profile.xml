@@ -52,6 +52,51 @@
                     android:layout_height="match_parent">
 
                     <TextView
+                        android:id="@+id/label_IP"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:text="@string/ip_address"/>
+
+                    <TextView
+                        android:id="@+id/ipAddressText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text=""/>
+
+                    <EditText
+                        android:id="@+id/ipAddressField"
+                        android:layout_width="295dp"
+                        android:layout_height="53dp"
+                        android:hint="@string/ip_address"/>
+
+                    <Button
+                        android:id="@+id/saveIPAddress"
+                        android:layout_width="154dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/save"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                app:cardElevation="1dp"
+                app:cardCornerRadius="12dp"
+                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_margin="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
                         android:id="@+id/label_token"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

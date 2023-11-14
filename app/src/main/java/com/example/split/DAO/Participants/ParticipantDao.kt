@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ParticipantDao {
-    @Query("select * from participant order by name")
+    @Query("select * from participant order by bib")
     fun getParticipant(): Flow<List<Participant>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

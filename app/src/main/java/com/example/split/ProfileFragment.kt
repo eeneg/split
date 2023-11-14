@@ -41,6 +41,10 @@ class ProfileFragment : Fragment() {
     private lateinit var pasteTokenBtn: Button
     private lateinit var addToken: Button
 
+    private lateinit var ipAddressText: TextView
+    private lateinit var ipAddressField: EditText
+    private lateinit var saveIPAddressBtn: Button
+
     private lateinit var identifierText: TextView
     private lateinit var identifierField: EditText
     private lateinit var saveIdentifierBtn: Button
@@ -72,6 +76,10 @@ class ProfileFragment : Fragment() {
         identifierField = view.findViewById(R.id.identifierField)
         saveIdentifierBtn = view.findViewById(R.id.saveIdentifierBtn)
 
+        ipAddressText = view.findViewById(R.id.ipAddressText)
+        ipAddressField = view.findViewById(R.id.ipAddressField)
+        saveIPAddressBtn = view.findViewById(R.id.saveIPAddress)
+
         pasteTokenField = view.findViewById(R.id.pasteTokenField)
         pasteTokenBtn = view.findViewById(R.id.pasteTokenBtn)
         addToken = view.findViewById(R.id.addToken)
@@ -86,10 +94,32 @@ class ProfileFragment : Fragment() {
 
         val tokenDb = database.getToken(id)
 
+        val ipAddressDB = database.getIPAddress(id)
+
         val identifierDb = database.getIdentifier(id)
 
         if(identifierDb != null){
             identifierText.text = identifierDb
+        }
+
+        if(ipAddressDB != null){
+            ipAddressText.text = ipAddressDB
+        }
+
+        saveIPAddressBtn.setOnClickListener {
+            if(ipAddressField.text.isEmpty()){
+                Toast.makeText(activity, "Empty IP Address", Toast.LENGTH_SHORT).show()
+            }else{
+                database.inputIPAddress(id, ipAddressField.text.toString())
+
+                val updateIPAddress = database.getIPAddress(id)
+
+                if(updateIPAddress != null){
+                    ipAddressText.text = updateIPAddress
+                    ipAddressField.setText("")
+                    Toast.makeText(activity, "Saved!!", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
         saveIdentifierBtn.setOnClickListener {
@@ -129,12 +159,12 @@ class ProfileFragment : Fragment() {
 
                 if(updateTokenDb!!.length > 10){
                     token.text = "******${updateTokenDb.substring(updateTokenDb.toString().length - 4)}"
-                    Toast.makeText(activity, "Saved1!!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, "Saved!!", Toast.LENGTH_SHORT).show()
                     pasteTokenField.setText("")
                 }else{
                     token.text = "******${updateTokenDb}"
                     pasteTokenField.setText("")
-                    Toast.makeText(activity, "Saved2!!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, "Saved!!", Toast.LENGTH_SHORT).show()
                 }
             }
         }

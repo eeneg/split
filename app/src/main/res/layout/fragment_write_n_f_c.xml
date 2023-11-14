@@ -69,7 +69,9 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
                     android:gravity="center">
 
                     <EditText
@@ -79,14 +81,6 @@
                         android:layout_margin="5dp"
                         android:layout_weight="1"
                         android:hint="@string/search_bib" />
-
-                    <Button
-                        android:id="@+id/writeSearchBtn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/search" />
-
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -94,14 +88,26 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="18dp"
                     android:layout_marginEnd="18dp"
-                    android:gravity="right">
-                    <Spinner
-                        android:id="@+id/evenSpinner"
+                    android:gravity="center">
+                    <Button
+                        android:id="@+id/writeSearchClearBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="18dp"/>
+                        android:layout_marginEnd="20dp"
+                        android:text="@string/clear"
+                        android:backgroundTint="@color/red"/>
+                    <Button
+                        android:id="@+id/writeSearchBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:text="@string/search" />
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/asd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/writeBibRecyclerView"

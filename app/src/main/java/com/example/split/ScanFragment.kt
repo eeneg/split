@@ -10,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
 import android.widget.TextClock
 import android.widget.TextView
 import android.widget.Toast
@@ -41,7 +40,6 @@ class ScanFragment : Fragment(){
     private lateinit var switchScan : SwitchCompat
     private lateinit var data: RecyclerView
     private lateinit var deleteAll: Button
-    private lateinit var ipField : EditText
 
     private lateinit var sync: Button
 
@@ -68,7 +66,6 @@ class ScanFragment : Fragment(){
         sync = view.findViewById(R.id.syncButton)
         switchScan = view.findViewById(R.id.switch1)
         data = view.findViewById(R.id.list)
-        ipField = view.findViewById(R.id.ipField)
         deleteAll = view.findViewById(R.id.deleteAllBtn)
 
         database = DBHelper(activity)
@@ -101,8 +98,9 @@ class ScanFragment : Fragment(){
         sync.setOnClickListener {
             val loadingDialog = ShowLoadingDialog(requireActivity())
             val token = database.getToken(id)
-            if(ipField.text.isEmpty()){
-                Toast.makeText(activity, "Empty URL", Toast.LENGTH_SHORT).show()
+            val ipAddress = database.getIPAddress(id)
+            if(ipAddress == null){
+                Toast.makeText(activity, "Empty IP Address", Toast.LENGTH_SHORT).show()
             }else if(token == null) {
                 Toast.makeText(activity, "User does not have a token", Toast.LENGTH_SHORT).show()
             }else{
@@ -111,7 +109,7 @@ class ScanFragment : Fragment(){
                 if(identifierDb != null){
                     loadingDialog.showLoading()
                     val queue = Volley.newRequestQueue(activity)
-                    val url = "http://"+ipField.text+"/checkpoints/sync"
+                    val url = "http://$ipAddress/checkpoints/sync"
                     val jsonRequest = object : StringRequest(
                         Request.Method.POST, url,
                         Response.Listener { response ->
@@ -147,9 +145,9 @@ class ScanFragment : Fragment(){
                                 if (data.userId == id){
                                     splits["splits[$i][bib]"] = data.bib
                                     splits["splits[$i][time]"] = data.date + " " + data.time
-                                    splits["splits[$i][identifiers]"] = identifierDb.toString()
                                 }
                             }
+                            splits.put("identifiers", identifierDb.toString())
                             println(splits)
                             return splits
                         }

@@ -55,6 +55,8 @@
     <string name="search">Search</string>
     <string name="search_bib">Search Bib</string>
     <string name="sync_write_events">Sync</string>
+    <string name="clear">Clear</string>
+    <string name="ip_address">IP Address</string>
 
     <string-array name="action">
         <item>Edit</item>
